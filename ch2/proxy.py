@@ -23,22 +23,6 @@ def hexdump(src, length=16, show=True):
 		else:
 			return results
 
-# def hexdump(src, length=16, show=True):
-# 	result = []
-# 	digits = 4
-
-# 	s = src[:]
-# 	print(s)
-# 	hexa = " ".join(["%0*X" % (digits, ord(x)) for x in s.decode("ascii")])
-# 	text = "".join([x if 0x20 <= ord(x) < 0x7F else "." for x in s.decode("ascii")])
-# 	result.append("%04X   %-*s   %s" % (1, length * (digits + 1), hexa, text))
-
-# 	if show:
-# 		for line in results:
-# 			print(line)
-# 		else:
-# 			return results
-
 def receive_from(connection):
 	buffer = b""
 	connection.settimeout(5)
