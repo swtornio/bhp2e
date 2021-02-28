@@ -23,6 +23,22 @@ def hexdump(src, length=16, show=True):
 		else:
 			return results
 
+# def hexdump(src, length=16, show=True):
+# 	result = []
+# 	digits = 4
+
+# 	s = src[:]
+# 	print(s)
+# 	hexa = " ".join(["%0*X" % (digits, ord(x)) for x in s.decode("ascii")])
+# 	text = "".join([x if 0x20 <= ord(x) < 0x7F else "." for x in s.decode("ascii")])
+# 	result.append("%04X   %-*s   %s" % (1, length * (digits + 1), hexa, text))
+
+# 	if show:
+# 		for line in results:
+# 			print(line)
+# 		else:
+# 			return results
+
 def receive_from(connection):
 	buffer = b""
 	connection.settimeout(5)
@@ -108,3 +124,27 @@ def server_loop(local_host, local_port,
 			args=(client_socket, remote_host,
 			remote_port, receive_first))
 		proxy_thread.start()
+
+def main():
+	if len(sys.argv[1:]) != 5:
+		print("Usage: ./proxy.py [localhost] [localport]", end='')
+		print("[remotehost] [remoteport] [receive_first]")
+		print("Example: ./proxy.py 127.0.0.1 9000 10.12.132.1 9000 True")
+		sys.exit(0)
+	local_host = sys.argv[1]
+	local_port = int(sys.argv[2])
+	remote_host = sys.argv[3]
+	remote_port = int(sys.argv[4])
+
+	receive_first = sys.argv[5]
+
+	if "True" in receive_first:
+		receive_first = True
+	else:
+		receive_first = False
+
+	server_loop(local_host, local_port,
+		remote_host, remote_port, receive_first)
+
+if __name__ == '__main__':
+	main()
